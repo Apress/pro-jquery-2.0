@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style type="text/css">
+        #draggable {font-size: x-large; border: thin solid black;
+            width: 5em; text-align: center}
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#draggable").draggable();
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <div id="draggable">
+        Drag me
+    </div>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="jquery.mobile-1.3.1.css" type="text/css" />
+    <script type="text/javascript" src="jquery-1.10.1.js"></script>
+    <script src="handlebars.js"></script>
+    <script src="handlebars-jquery.js"></script>
+    
+    <script id="liTmpl" type="text/x-handlebars-template">
+        {{#products}}
+        <li>
+            <a href="#" class="buy" id="{{name}}">{{label}}</a>
+            <a class="productLink" data-flower="{{name}}" href="#">{{label}}</a>
+        </li>
+        {{/products}}
+    </script>
+    <script id="trTmpl" type="text/x-handlebars-template">
+        <tr data-theme="b" data-price="{{price}}" id="{{name}}"><td>{{label}}</td>
+            <td id="count"><input type=number value=1 min=0 max=10></td>
+            <td id="subtotal">0</td>
+        </tr>
+    </script>   
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $.getJSON("data.json", function (data) {
+                $("ul").append($("#liTmpl")
+                    .template({ products: data })).listview("refresh");
+
+                $("a.productLink").bind("tap", function () {
+                    var targetFlower = $(this).attr("data-flower");
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].name == targetFlower) {
+                            var page = $("#productPage");
+                            page.find("#header").text(data[i].label);
+                            page.find("#image").attr("src", data[i].name + ".png");
+                            page.find("#description").text(data[i].text);
+                            page.find("#price").text(data[i].price);
+                            page.find("#buybutton").attr("data-flower", data[i].name);
+                            $.mobile.changePage("#productPage");
+                            break;
+                        }
+                    }
+                })
+
+                $("#buybutton").bind("tap", function () {
+                    addProduct($(this).attr("data-flower"));
+                })
+
+                $("a.buy").bind("tap", function () {
+                    addProduct(this.id);
+                })
+
+                function addProduct(targetFlower) {
+                    var row = $("#basketTable tbody #" + targetFlower);
+                    if (row.length > 0) {
+                        var countCell = row.find("#count input");
+                        countCell.val(Number(countCell.val()) + 1);
+                    } else {
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].name == targetFlower) {
+                                $("#trTmpl").template(data[i])
+                                    .appendTo("#basketTable tbody")
+                                    .find("input").textinput();
+                                break;
+                            }
+                        }
+                    }
+                    calculateTotals();
+                    $.mobile.changePage("#basket")
+                }
+
+                $(document).on("change click", "input", function (event) {
+                    calculateTotals();
+                })
+
+                $("#submit").bind("tap", function () {
+                    var dataObject = new Object();
+                    $("#basketTable tbody").children().each(function (index, elem) {
+                        dataObject[elem.id] = $(elem).find("#count input").val();
+                    })
+                    dataObject["name"] = $("#name").val();
+                    dataObject["wrap"] = $("option:selected").val();
+                    dataObject["shipping"] = $("input:checked").attr("id")
+
+                    console.log("DATA: " + JSON.stringify(dataObject))
+                })
+
+            })
+        })
+
+        function calculateTotals() {
+            var total = 0;
+            $("#basketTable tbody").children().each(function (index, elem) {
+                var count = Number($(elem).find("#count input").val())
+                var price = Number($(elem).attr("data-price").slice(1))
+                var subtotal = count * price;
+                $(elem).find("#subtotal").text("$" + subtotal.toFixed(2));
+                total += subtotal;
+            })
+            $("#total").text("$" + total.toFixed(2))
+        }
+
+    </script>
+    <script type="text/javascript" src="jquery.mobile-1.3.1.js"></script>
+    <style type="text/css">
+        .lcontainer {float: left; text-align: center; padding: 10px}
+        .productData {float: right; padding: 10px; width: 60%}
+        .cWrapper {text-align: center}
+        table {display: inline-block; margin: auto; margin-top: 20px; text-align: left;
+            border-collapse: collapse}
+        td {min-width: 100px; padding-bottom: 10px}
+        td:nth-child(2) {min-width: 75px; width: 75px}
+        th, td {text-align: right}
+        th:nth-child(1), td:nth-child(1) {text-align: left}
+        input[type=number] {background-color: white}
+        tfoot tr {border-top: medium solid black}
+        tfoot tr td {padding-top: 10px}
+    </style>
+  
+</head>
+<body>
+    <div id="page1" data-role="page" data-theme="b">
+        <div data-role="header">
+           <h1>Jacqui's Shop</h1>
+        </div>
+        <div id="container" style="padding: 20px">
+            <ul data-role="listview" data-inset=true></ul>
+        </div>
+    </div>
+        
+    <div id="productPage" data-role="page" data-theme="b">
+         <div data-role="header">
+            <h1 id="header"></h1>
+         </div>
+         <div>
+             <div class="lcontainer">
+                 <img id="image" src="">
+                 <div><a href="#" data-rel="back" data-role="button"
+                        data-inline=true data-direction="reverse">Back</a>
+                 </div>
+             </div>                         
+             <div class="productData">
+                 <span id="description"></span>
+                 <div>
+                    <b>Price: <span id="price"></span></b>
+                    <a href="#" id="buybutton" data-flower="" data-role="button"
+                       data-inline=true>Buy</a>
+                 </div>
+             </div>
+         </div>
+     </div>
+        
+    <div id="basket" data-role="page" data-theme="b">
+        <div data-role="header">
+           <h1>Jacqui's Shop</h1>
+        </div>
+        <div class="cWrapper">
+            <table id="basketTable" border=0>
+                <thead>
+                    <tr><th>Flower</th><th>Quantity</th><th>Subtotal</th></tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr><th colspan=2>Total:</th><td id="total"></td></tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="cWrapper">
+            <a href="#" data-rel="back" data-role="button" data-inline=true
+               data-direction="reverse">Back</a>
+            <a href="#checkout" data-role="button" data-inline="true">Checkout</a>
+        </div>
+    </div>
+    
+   <div id="checkout" data-role="page" data-theme="b">
+        <div data-role="header">
+           <h1>Jacqui's Shop</h1>
+        </div>
+        <div data-role="content">
+            
+            <label for="name">Name: </label>
+            <input id="name" placeholder="Your Name">
+
+            <label for="wrap"><span>Gift Wrap: </span></label>
+            <select id="wrap" name="wrap" data-role="slider">
+                <option value="yes" selected>Yes</option>
+                <option value="no">No</option>
+            </select>
+
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <legend>Shipping:</legend>
+                <input type="radio" name="ship" id="overnight" checked />
+                <label for="overnight">Overnight</label>
+                <input type="radio" name="ship" id="23day"/>
+                <label for="23day">2-3 days</label>
+                <input type="radio" name="ship" id="710day"/>
+                <label for="710day">7-10 days</label>                                        
+            </fieldset>
+
+            <div class="cWrapper">
+                <a href="#" data-rel="back" data-role="button" data-inline="true"
+                   data-direction="reverse">Back</a>
+                <a href="#" id="submit" data-role="button"
+                   data-inline="true">Submit Order</a>
+            </div>            
+        </div>
+    </div>    
+</body>
+</html>

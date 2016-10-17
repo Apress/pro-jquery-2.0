@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <script src="handlebars.js"></script>
+    <script src="handlebars-jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <style type="text/css">
+        .dcell img {height: 60px}
+        #basketTable {border: thin solid black; border-collapse: collapse}        
+        th, td {padding: 4px; width: 50px}
+        td:first-child, th:first-child {width: 150px}
+        #placeholder {text-align: center}
+        #productWrapper {float: left; width: 65%}
+        #basket {width: 30%; text-align: left; float: left; margin-left: 10px}
+        #buttonDiv {clear: both}
+    </style>
+    <script id="flowerTmpl" type="text/x-handlebars-template">
+        {{#flowers}}
+            <div class="dcell">
+                <img src="{{product}}.png"/>
+                <label for="{{product}}">{{name}}:</label>
+                <input name="{{product}}" value="0" />
+            </div>
+        {{/flowers}}
+    </script>    
+    <script id="rowTmpl" type="text/x-handlebars-template">
+        <tr id="{{name}}"><td>{{product}}</td><td>{{val}}</td>
+            <td><a href="#">Remove</a></td>
+        </tr>
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $.getJSON("mydata.json", function (data) {
+
+                var flowers = $("#flowerTmpl").template({ flowers: data }).filter("*");
+
+                var rowCount = 1;    
+                for (var i = 0; i < flowers.length; i += 2) {
+                    $("<a>").text(data[i].name + " & " + data[i + 1].name)
+                        .appendTo("<h2>").parent().appendTo("#products");
+                    $("<div>").attr("id", "row" + (rowCount++))
+                        .appendTo("#products")
+                        .append(flowers.slice(i, i + 2));
+                }
+                $("#products").accordion();
+
+                $("input").change(function (event) {
+                    $("#placeholder").hide();
+                    var fname = $(this).attr("name");
+                    var row = $("tr[id=" + fname + "]");
+
+                    if (row.length == 0) {
+                        $("#rowTmpl").template({
+                            name: fname,
+                            val: $(this).val(),
+                            product: $(this).siblings("label").text()
+                        }).appendTo("#basketTable").find("a").click(function () {
+                            removeTableRow($(this).closest("tr"));
+                            var iElem = $("#products").find("input[name=" + fname + "]");
+                            $("#products").accordion("option", "active",
+                                iElem.closest("div[id^=row]").index("div[id^=row]"));
+                            iElem.val(0).select();
+                        });
+                    } else if ($(this).val() != "0") {
+                        row.children().eq(1).text($(this).val());
+                    } else {
+                        removeTableRow(row);
+                    }
+                });
+            });
+            
+            function removeTableRow(row) {
+                row.remove();                 
+                if ($("#basketTable tbody").children(":visible").length == 1) {
+                    $("#placeholder").show();
+                } 
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <form method="post" action="http://node.jacquisflowershop.com/order">
+        <div id="productWrapper">
+            <div id="products"></div>
+        </div>
+        <div id="basket" class="ui-widget">
+            <table border=1 id="basketTable">
+                <tr><th>Product</th><th>Quantity</th><th>Remove</th></tr>
+                <tr id="placeholder"><td colspan=3>No Products</td></tr>
+            </table>
+        </div>
+        <div id="buttonDiv"><button type="submit">Place Order</button></div>
+    </form>
+</body>
+</html>

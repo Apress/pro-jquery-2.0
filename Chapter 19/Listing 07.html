@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style type="text/css">
+        button {margin-bottom: 5px}
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#acInput").autocomplete({
+                source: function (request, response) {
+                    $.getJSON("http://node.jacquisflowershop.com/auto", 
+                        function(flowers) {
+                            var term = request.term;
+                            var pattern = new RegExp("^" + term, "i");
+
+                            var results = $.map(flowers, function (elem) {
+                                if (pattern.test(elem)) {
+                                    return elem;
+                                }
+                            })
+                            response(results);
+                        });
+                }
+            })
+        });
+    </script>
+</head>
+<body>
+    <form>     
+        <div class="ui-widget">
+            <label for="acInput">Flower Name: </label><input id="acInput"/>
+        </div>
+
+    </form>
+</body>
+</html>

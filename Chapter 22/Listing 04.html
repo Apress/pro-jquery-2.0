@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#dialog").dialog({
+                title: "Hello",
+                resizable: false
+            });
+        });
+    </script>   
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>        
+    <div id="dialog">
+      This is the content that will be displayed in the dialog box. This <b>content</b>
+      can be <em>styled</em>.
+        <p>Name: <input id="name"/> City: <input id="city" autofocus="autofocus" /></p>
+    </div>
+</body>
+</html>

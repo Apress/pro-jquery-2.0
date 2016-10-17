@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style type="text/css">
+        .elemClass {
+            font-size: 25px; background-color: white; color: black;
+            border: medium solid black; width: 200px; height: 50px;
+            text-align: center; line-height: 50px; display: block; margin-bottom: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("button").click(function () {
+                switch (this.id) {
+                    case "show":
+                        $("#animTarget").show("fold", "fast");
+                        break;
+                    case "hide":
+                        $("#animTarget").hide("fold", "fast");
+                        break;
+                    case "toggle":
+                        $("#animTarget").toggle("fold", "fast");
+                        break;
+                }
+            })
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    
+    <button id="hide">Hide</button>
+    <button id="show">Show</button>
+    <button id="toggle">Toggle</button>
+    
+    <div id=animTarget class="elemClass">
+        Hello!
+    </div>    
+</body>
+</html>

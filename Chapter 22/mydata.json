@@ -1,0 +1,6 @@
+[{"name":"Aster","product":"aster","stock":"10","price":"2.99"},
+ {"name":"Daffodil","product":"daffodil","stock":"12","price":"1.99"},
+ {"name":"Rose","product":"rose","stock":"2","price":"4.99"},
+ {"name":"Peony","product":"peony","stock":"0","price":"1.50"},
+ {"name":"Primula","product":"primula","stock":"1","price":"3.12"},
+ {"name":"Snowdrop","product":"snowdrop","stock":"15","price":"0.99"}]

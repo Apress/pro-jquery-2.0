@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js"></script>
+    <script src="jquery-ui-1.10.3.custom.js"></script>
+    <link href="jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+    <style>
+        #slider, #rangeslider, *.inputDiv { margin: 10px}
+        label {width: 80px; display: inline-block; margin: 4px}
+    </style>
+     <script type="text/javascript">
+         $(document).ready(function () {
+
+             $("#slider").slider({
+                 value: 50,
+                 create: function () {
+                     $("#slideVal").val($("#slider").slider("value"));
+                 }
+             });
+
+             $("#rangeslider").slider({
+                 values: [35, 65],
+                 range: true,
+                 create: function () {
+                     $("#rangeMin").val($("#rangeslider").slider("values", 0));
+                     $("#rangeMax").val($("#rangeslider").slider("values", 1));
+                 }
+             })
+
+             $("input").change(function (e) {
+                 switch (this.id) {
+                     case "rangeMin":
+                     case "rangeMax":
+                         var index = (this.id == "rangeMax") ? 1 : 0;
+                         $("#rangeslider").slider("values", index, $(this).val())
+                         break;
+                     case "slideVal":
+                         $("#slider").slider("value", $(this).val())
+                         break;
+                 }
+             })
+         });
+    </script>
+</head>
+<body>
+    <div id="rangeslider"></div>
+    <div class="inputDiv">
+        <label for="rangeMin">Range Min: </label><input id="rangeMin" />
+        <label for="rangeMax">Range Max: </label><input id="rangeMax" />
+    </div>
+    <div id="slider"></div>
+    <div class="inputDiv">
+        <label for="slideVal">Slide Val: </label><input id="slideVal" />
+    </div>    
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style type="text/css">
+        button {margin-bottom: 5px}
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            var flowers = ["Aster", "Daffodil", "Rose", "Peony", "Primula", "Snowdrop",
+                            "Poppy", "Primrose", "Petuna", "Pansy"];
+
+            $("#acInput").autocomplete({
+                source: flowers
+            });
+            
+            $("button").click(function(e) {
+                e.preventDefault();
+                switch (this.id) {
+                    case "close":                                         
+                        $("#acInput").autocomplete("close");
+                        break;
+                    case "input":                           
+                        $("#acInput").autocomplete("search");
+                        break;
+                    default:            
+                        $("#acInput").autocomplete("search", this.id);
+                        break;
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <form>
+        <button id="s">S</button>
+        <button id="p">P</button>
+        <button id="input">Input Content</button>
+        <button id="close">Close</button>        
+        <div class="ui-widget">
+            <label for="acInput">Flower Name: </label><input id="acInput"/>
+        </div>
+    </form>
+</body>
+</html>

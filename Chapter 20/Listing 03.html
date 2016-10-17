@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="handlebars.js"></script>
+    <script src="handlebars-jquery.js"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <script id="flowerTmpl" type="text/x-jquery-tmpl">
+        {{#flowers}}
+        <div class="dcell">
+            <img src="{{product}}.png"/>
+            <label for="{{product}}">{{name}}:</label>
+            <input name="{{product}}" value="0" />
+        </div>
+        {{/flowers}}
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = {
+                flowers: [{ "name": "Aster", "product": "aster" },
+                { "name": "Daffodil", "product": "daffodil" },
+                { "name": "Rose", "product": "rose" },
+                { "name": "Peony", "product": "peony" },
+                { "name": "Primula", "product": "primula" },
+                { "name": "Snowdrop", "product": "snowdrop" },
+                { "name": "Carnation", "product": "carnation" },
+                { "name": "Lily", "product": "lily" },
+                { "name": "Orchid", "product": "orchid" }]
+            };
+
+            var elems = $("#flowerTmpl").template(data).filter("*");
+            elems.slice(0, 3).appendTo("#tab1");
+            elems.slice(3, 6).appendTo("#tab2");
+            elems.slice(6).appendTo("#tab3");
+
+            $("#tabs").tabs();
+            $("button").button();
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <form method="post" action="http://node.jacquisflowershop.com/order">
+        <div id="tabs">
+            <ul>
+                <li><a href="tabflowers.html">Ajax Content</a>
+                <li><a href="#tab1">Row 1</a>
+                <li><a href="#tab2">Row 2</a>
+                <li><a href="#tab3">Row 3</a>                    
+            </ul>
+            <div id="tab1"></div>
+            <div id="tab2"></div>
+            <div id="tab3"></div>                 
+        </div>
+        <div id="buttonDiv"><button type="submit">Place Order</button></div>                    
+    </form>
+</body>
+</html>

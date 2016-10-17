@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <script src="globalize.js"></script>
+    <script  src="globalize.cultures.js"></script>    
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <style type="text/css">
+        input {width: 150px;}
+        button { margin-top: 10px; }
+    </style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#entry").spinner({
+            culture: "en-US",
+            numberFormat: "C",
+            step: 2,
+            page: 10,
+            stop: function () {
+                console.log("Value: " + $("#entry").spinner("value"));
+            }
+        });
+
+        $("button").button().click(function () {
+            $("#entry").spinner(this.id);
+            //console.log("Value: " + $("#entry").spinner("value"));
+        });
+
+    });
+</script>
+
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>        
+    <div class="ui-widget">
+        Enter value: <input id="entry" value="5.00"/>
+    </div>
+    <div>
+        <button id="pageDown">Page Down</button>
+        <button id="stepDown">Step Down</button>
+        <button id="stepUp">Step Up</button>
+        <button id="pageUp">Page Up</button>
+    </div>
+</body>
+</html>

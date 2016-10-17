@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <script src="handlebars.js"></script>
+    <script src="handlebars-jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <style type="text/css">
+        .dcell img {height: 60px}
+        #basketTable {border: none; border-collapse: collapse}        
+        th, td {padding: 4px; width: 50px}
+        td:first-child, th:first-child {width: 150px}
+        #placeholder {text-align: center}
+        #productWrapper {float: left; width: 65%}
+        #basket {text-align: left;}
+        #buttonDiv {clear: both; margin: 5px}
+        #logo {font-size: 1.5em; background-size: contain; margin: 1px;
+            border: none; color: inherit}
+        #logoWrapper {margin-bottom: 5px}
+        #theader {border: none}   
+
+
+        #completeDialog input {width: 150px; margin-left: 5px; text-align: left}
+        #completeDialog label {width: 60px; text-align: right}
+    </style>
+
+    <script id="flowerTmpl" type="text/x-handlebars-template">
+        {{#flowers}}
+            <div class="dcell">
+                <img src="{{product}}.png"/>
+                <label for="{{product}}">{{name}}:</label>
+                <input name="{{product}}" value="0" />
+            </div>
+        {{/flowers}}
+    </script>    
+
+    <script id="rowTmpl" type="text/x-handlebars-template">
+        <tr id="{{name}}"><td>{{product}}</td><td>{{val}}</td>
+            <td><a href="#">Remove</a></td>
+        </tr>
+    </script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $.getJSON("mydata.json", function (data) {
+
+            var flowers = $("#flowerTmpl").template({ flowers: data }).filter("*");
+
+            var rowCount = 1;    
+            for (var i = 0; i < flowers.length; i += 2) {
+                $("<a>").text(data[i].name + " & " + data[i + 1].name)
+                    .appendTo("<h2>").parent().appendTo("#products");
+                $("<div>").attr("id", "row" + (rowCount++))
+                    .appendTo("#products")
+                    .append(flowers.slice(i, i + 2));
+            }
+            $("#products").accordion();
+
+            $("#products input").change(function (event) {
+                $("#placeholder").hide();
+                var fname = $(this).attr("name");
+                var row = $("tr[id=" + fname + "]");
+
+                if (row.length == 0) {
+                    $("#rowTmpl").template({
+                        name: fname,
+                        val: $(this).val(),
+                        product: $(this).siblings("label").text()
+                    }).appendTo("#basketTable").find("a").click(function () {
+                        removeTableRow($(this).closest("tr"));
+                        var iElem = $("#products").find("input[name=" + fname + "]");
+                        $("#products").accordion("option", "active",
+                            iElem.closest("div[id^=row]").index("div[id^=row]"));
+                        iElem.val(0).select();
+                    });
+                } else if ($(this).val() != "0") {
+                    row.children().eq(1).text($(this).val());
+                } else {
+                    removeTableRow(row);
+                }
+            });
+        });
+            
+        $("#buttonDiv, #basket").wrapAll("<div>").parent().css({
+            float: "left",
+            marginLeft: "2px"
+        });
+
+        $("button").button().click(function (e) {
+            e.preventDefault();
+            if ($("#placeholder:visible").length) {
+
+                $("<div>Please select some products</div>").dialog({
+                    modal: true,
+                    buttons: [{
+                        text: "OK",
+                        click: function () { $(this).dialog("close") }
+                    }]
+                })
+            } else {
+                $("#completeDialog").dialog("open");
+            }
+        });
+
+        $("#completeDialog").dialog({
+            modal: true,
+            autoOpen: false,
+            buttons: [{ text: "OK", click: sendOrder },
+                        {
+                            text: "Cancel", click: function () {
+                                $("#completeDialog").dialog("close");
+                            }
+                        }]
+        });
+
+        function sendOrder() {
+            var data = new Object();
+            $("input").each(function (index, elem) {
+                var jqElem = $(elem);
+                data[jqElem.attr("name")] = jqElem.val();
+            })
+            console.log(JSON.stringify(data));
+            $("#completeDialog").dialog("close");
+            $("#products input").val("0");
+            $("#products").accordion("option", "active", 0)
+            $("#basketTable tbody").children(":visible").remove();
+            $("#placeholder").show();
+        }
+
+        function removeTableRow(row) {
+            row.remove();                 
+            if ($("#basketTable tbody").children(":visible").length == 0) {
+                $("#placeholder").show();
+            } 
+        }
+    });
+</script>
+</head>
+<body>
+    <div id="logoWrapper" class="ui-widget ui-widget-content ui-corner-all">
+        <h1 id="logo">Jacqui's Flower Shop</h1>
+    </div>
+    <form method="post" action="http://node.jacquisflowershop.com/order">
+        <div id="productWrapper">
+            <div id="products"></div>
+        </div>
+        <div id="basket" class="ui-widget ui-widget-content ui-corner-all">
+            <table border=0 id="basketTable">
+                <thead id="theader" class="ui-widget-header">
+                    <tr>
+                        <th class="ui-corner-tl">Product</th>
+                        <th>Quantity</th>
+                        <th class="ui-corner-tr">Remove</th></tr>
+                </thead>
+                <tr id="placeholder"><td colspan=3>No Products</td></tr>
+            </table>
+        </div>
+        <div id="buttonDiv"><button type="submit">Place Order</button></div>
+    </form>
+    <div id="completeDialog" title="Complete Purchase">        
+        <div><label for="name">Name: </label><input name="first" /></div>
+        <div><label for="email">Email: </label><input name="email" /></div>
+        <div><label for="city">City: </label><input name="city" /></div>
+    </div>
+</body>
+</html>

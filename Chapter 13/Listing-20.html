@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="handlebars.js" type="text/javascript"></script>
+    <script src="handlebars-jquery.js" type="text/javascript"></script>
+    <script src="jquery.validate.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <style type="text/css">
+        .errorMsg {color: red}
+        .invalidElem {border: medium solid red}
+    </style>
+
+
+     
+     
+    <script id="flowerTmpl" type="text/x-handlebars-template">
+        {{#each flowers}}
+        <div class="dcell">    
+            <img src="{{product}}.png"/>
+            <label for="{{product}}">{{name}}: </label>
+            <input name="{{product}}" value="0" required />
+        </div>
+        {{/each}}
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = {
+                flowers: [
+                    { name: "Aster", product: "aster", stock: "10", price: "2.99" },
+                    { name: "Daffodil", product: "daffodil", stock: "12", price: "1.99" },
+                    { name: "Rose", product: "rose", stock: "2", price: "4.99" },
+                    { name: "Peony", product: "peony", stock: "0", price: "1.50" },
+                    { name: "Primula", product: "primula", stock: "1", price: "3.12" },
+                    { name: "Snowdrop", product: "snowdrop", stock: "15", price: "0.99" }]
+            };
+
+            var templResult = $("#flowerTmpl").template(data).filter("*");
+            templResult.slice(0, 3).appendTo("#row1");
+            templResult.slice(3).appendTo("#row2");
+
+            $("form").validate({
+                highlight: function (element, errorClass) {
+                    $(element).add($(element).parent()).addClass("invalidElem");
+                },
+                unhighlight: function (element, errorClass) {
+                    $(element).add($(element).parent()).removeClass("invalidElem");
+                },
+                errorElement: "div",
+                errorClass: "errorMsg"
+            });
+
+            $.validator.addMethod("stock", function (value, elem, args) {
+                return Number(value) < Number(args);
+            }, "We don't have that many in stock");
+
+            $("input").each(function (index, elem) {
+                $(elem).rules("add", {
+                    stock: data.flowers[index].stock
+                })
+            }).change(function (e) {
+                $("form").validate().element($(e.target));
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+
+ 
+ 
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <form method="post" action="http://node.jacquisflowershop.com/order">
+        <div id="oblock">        
+            <div class="dtable">
+                <div id="row1" class="drow">
+                </div>
+                <div id="row2"class="drow">
+                </div>            
+            </div>
+        </div>
+        <div id="buttonDiv"><button type="submit">Place Order</button></div>                    
+    </form>
+</body>
+</html>

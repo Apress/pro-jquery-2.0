@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="handlebars.js" type="text/javascript"></script>
+    <script src="handlebars-jquery.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+
+    <script id="flowerTmpl" type="text/x-handlebars-template">
+        {{#flowers}}
+        <div class="dcell">
+            <img src="{{product}}.png"/>
+            <label for="{{product}}">{{name}}:</label>
+            <input name="{{product}}" data-price="{{price}}" data-stock="{{stock}}"
+                value="0" required />
+        </div>
+        {{/flowers}}
+    </script>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var data = {
+                flowers: [
+                { name: "Aster", product: "aster", stock: "10", price: 2.99 },
+                { name: "Daffodil", product: "daffodil", stock: "12", price: 1.99 },
+                { name: "Rose", product: "rose", stock: "2", price: 4.99 },
+                { name: "Peony", product: "peony", stock: "0", price: 1.50 },
+                { name: "Primula", product: "primula", stock: "1", price: 3.12 },
+                { name: "Snowdrop", product: "snowdrop", stock: "15", price: 0.99 }]
+            };
+
+            var tElem = $("#flowerTmpl");
+            tElem.template({ flowers: data.flowers.slice(0, 3) }).appendTo("#row1");
+            tElem.template({ flowers: data.flowers.slice(3) }).appendTo("#row2");
+        });
+    </script>
+
+
+    
+    
+    
+    
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <form method="post">
+        <div id="oblock">        
+            <div class="dtable">
+                <div id="row1" class="drow"></div>
+                <div id="row2"class="drow"></div>            
+            </div>
+        </div>
+        <div id="buttonDiv"><button type="submit">Place Order</button></div>                    
+    </form>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <style type="text/css">
+        input {width: 150px;}
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#entry").spinner({
+                min: 2,
+                max: 100,
+                step: 2,
+                page: 5,
+                icons: {
+                    up: "ui-icon-circle-plus",
+                    down: "ui-icon-circle-minus",
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>        
+    <div class="ui-widget">
+        Enter value: <input id="entry" value="0" />
+    </div>
+</body>
+</html>

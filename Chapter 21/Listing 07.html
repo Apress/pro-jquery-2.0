@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style type="text/css">
+        input {width: 200px; text-align: left}
+        #dpcontainer * {vertical-align: middle}
+        #dpcontainer img {width: 35px;}
+    </style> 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#datep").datepicker({
+                showOn: "both",
+                buttonImage: "right.png",
+                buttonImageOnly: true
+            });
+        });
+    </script>   
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <form method="post" action="http://node.jacquisflowershop.com/order">
+      <div id="dpcontainer" class="ui-widget">
+        <label for="datep">Date: </label><input id="datep"/>
+      </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("h1").css({ "position": "fixed", "z-index": "1", "min-width": "0" });
+        $("form").remove();
+
+        $("<table border=1></table>")
+            .appendTo("body").css({
+                position: "fixed", "z-index": "2",
+                "border-collapse": "collapse", top: 100
+            });
+
+        var finishAnimations = false;
+
+        $("<button>Stop</button><button>Start</button>")
+          .appendTo($("<div/>").appendTo("body")
+            .css({
+                position: "fixed", "z-index": "2",
+                "border-collapse": "collapse", top: 100, left: 200
+            })).click(function (e) {
+                if ($(this).text() == "Stop") {
+                    finishAnimations = true;
+                    $("h1").finish();
+                } else {
+                    finishAnimations = false;
+                    cycleEffects();
+                }
+            });
+
+        var timespan = "slow";
+
+        cycleEffects();
+        printQueue();
+
+        function cycleEffects() {
+            $("h1")
+            .animate({ left: "+=100" }, timespan)
+            .animate({ left: "-=100" }, timespan)
+            .queue(function () {
+                $("body").fadeTo(timespan, 0).fadeTo(timespan, 1);
+                $(this).dequeue();
+            })
+            .delay(1000)
+            .animate({ height: 223, width: 700 }, timespan)
+            .animate({ height: 30, width: 500 }, timespan)
+            .delay(1000)
+            .slideUp(timespan)
+            .slideDown(timespan, function () {
+                if (!finishAnimations) {
+                    cycleEffects();
+                }
+            });
+        }
+
+
+
+        function printQueue() {
+            var q = $("h1").queue();
+            var qtable = $("table");
+            qtable.html("<tr><th>Queue Length:</th><td>" + q.length + "</td></tr>");
+
+            for (var i = 0; i < q.length; i++) {
+                var baseString = "<tr><th>" + i + ":</th><td>";
+                if (q[i] == "inprogress") {
+                    $("table").append(baseString + "In Progress</td></tr>");
+                } else {
+                    $("table").append(baseString + q[i] + "</td></tr>");
+                }
+            }
+            setTimeout(printQueue, 500);
+        }
+    });
+</script>
+
+
+
+
+
+
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <form method="post">
+        <div id="oblock">        
+            <div class="dtable">
+                <div id="row1" class="drow">
+                    <div class="dcell">
+                        <img src="aster.png"/><label for="aster">Aster:</label>
+                        <input name="aster" value="0" required />
+                    </div>
+                    <div class="dcell">
+                        <img src="daffodil.png"/><label for="daffodil">Daffodil:</label>
+                        <input name="daffodil" value="0" required />
+                    </div>
+                    <div class="dcell">
+                        <img src="rose.png"/><label for="rose">Rose:</label>
+                        <input name="rose" value="0" required />
+                    </div>                
+                </div>
+                <div id="row2"class="drow">
+                    <div class="dcell">
+                        <img src="peony.png"/><label for="peony">Peony:</label>
+                        <input name="peony" value="0" required />
+                    </div>
+                    <div class="dcell">
+                        <img src="primula.png"/><label for="primula">Primula:</label>
+                        <input name="primula" value="0" required />
+                    </div>            
+                    <div class="dcell">
+                        <img src="snowdrop.png"/><label for="snowdrop">Snowdrop:</label>
+                        <input name="snowdrop" value="0" required />
+                    </div>            
+                </div>            
+            </div>
+        </div>
+        <div id="buttonDiv"><button type="submit">Place Order</button></div>                    
+    </form>
+</body>
+</html>

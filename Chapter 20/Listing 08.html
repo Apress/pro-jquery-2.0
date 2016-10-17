@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <style type="text/css"> 
+        #buttons {margin: 5px 0} 
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#tabs").tabs();
+
+            $("button").button().click(function (e) {
+                var tabsElem = $("#tabs");
+                if (this.id == "add") {
+                    var tabID = tabsElem.children("div").length + 1;
+                    tabsElem.children("ul").append($("<li>").append($("<a>")
+                        .attr("href", "#tab" + tabID).text("Tab " + tabID)));
+                    $("<div>").attr("id", "tab" + tabID)
+                        .text("This is the content for tab " + tabID).appendTo(tabsElem);
+                } else {
+                    tabsElem.find("li").first().remove();
+                    tabsElem.children("div").first().remove();
+                }
+                tabsElem.tabs("refresh");
+            })
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>    
+    <div id="buttons" class="ui-widget">
+        <button id="add">Add Tab</button>
+        <button id="remove">Remove Tab</button>
+    </div>
+    <div id="tabs">
+        <ul>
+            <li><a href="#tab1">Tab 1</a>
+            <li><a href="#tab2">Tab 2</a>
+            <li><a href="#tab3">Tab 3</a>
+        </ul>
+        <div id="tab1">This is the content for tab 1</div>
+        <div id="tab2">This is the content for tab 2</div>
+        <div id="tab3">This is the content for tab 3</div>                
+    </div>
+</body>
+</html>

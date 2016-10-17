@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-1.7.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.8.16.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.8.16.custom.css"/>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".jqButton").click(function(e) {
+               e.preventDefault();
+               $(this).button();
+            });
+        });
+    </script>
+</head>
+<body>
+    <form>
+        <input class="jqButton" type="submit" id="inputSubmit" value="Submit">
+        <input class="jqButton" type="reset" id="inputReset" value="Reset">
+        <input class="jqButton" type="button" id="inputButton" value="Input Button">
+        <button class="jqButton">Button Element</button>
+        <a class="jqButton" href="http://apress.com">A Element</a>
+    </form>
+</body>
+</html>

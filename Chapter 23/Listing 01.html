@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <style>
+        .ui-menu { width: 200px; }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#menu").menu();
+        });
+    </script>
+
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>        
+
+    <ul id="menu">
+        <li><a>Bouquets</a></li>
+        <li><a>Heirloom Blooms</a></li>
+        <li><a>Summer Color</a>
+            <ul>
+                <li><a>Aster</a></li>
+                <li><a>Rose</a></li>
+                <li><a>Orchid</a></li>
+            </ul>
+        </li>
+        <li><a>Wedding Classics</a></li>
+        <li><a>Exotica</a></li>
+    </ul>
+</body>
+</html>

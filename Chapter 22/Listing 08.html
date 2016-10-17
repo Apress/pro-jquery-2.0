@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".dialog").dialog({
+                draggable: true
+            });
+        });
+    </script>   
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>        
+    <div id="d1" class="dialog" title="First Dialog">
+      This is the first dialog
+    </div>
+    <div id="d2" class="dialog" title="Second Dialog">
+      This is the second dialog
+    </div>
+    <div id="d3" class="dialog" title="Third Dialog">
+      This is the third dialog
+    </div>    
+</body>
+</html>

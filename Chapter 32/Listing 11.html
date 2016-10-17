@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="jquery.mobile-1.3.1.css" type="text/css" />
+    <script type="text/javascript" src="jquery-1.10.1.js"></script>
+    <script type="text/javascript" src="jquery.mobile-1.3.1.js"></script>    
+    <script>
+        $(document).bind("pageinit", function () {
+            $("#pageContent button").tap(function (e) {                
+                $("#" + this.id + "Panel").panel({
+                    display: $("input[type=radio]:checked").attr("id")
+                }).panel("open");
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="page1" data-role="page" data-theme="b">
+        <div data-role="header">
+           <h1>Jacqui's Shop</h1>
+        </div>
+    
+        <div id="pageContent" data-role="content">
+            <div class="ui-grid-a">
+                <div class="ui-block-a"><button id="left">Left</button></div>
+                <div class="ui-block-b"><button id="right">Right</button></div>
+            </div>
+
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <input type="radio" name="display" id="reveal" checked="checked"/>
+                    <label for="reveal">Reveal</label>
+                    <input type="radio" name="display" id="push"/>
+                    <label for="push">Push</label>
+                    <input type="radio" name="display" id="overlay"/>
+                    <label for="overlay">Overlay</label>                                        
+                </fieldset>
+            </div>
+        </div>
+
+        <div id="leftPanel" data-role="panel" data-theme="a" data-position="left">
+            <div data-role="panel-content">
+                <h3>Left Panel</h3>
+                <p>This is the the left panel</p>
+                <button data-rel="close" data-inline="true">Close</button>
+            </div>
+        </div>
+
+        <div id="rightPanel" data-role="panel" data-theme="a" data-position="right">
+            <div data-role="panel-content">
+                <h3>Right Panel</h3>
+                <p>This is the the right panel</p>
+                <button data-rel="close" data-inline="true">Close</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

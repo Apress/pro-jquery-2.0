@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js"></script>
+    <script src="jquery-ui-1.10.3.custom.js"></script>
+    <link href="jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+     <script type="text/javascript">
+         $(document).ready(function () {
+
+             $("#progressDiv").progressbar({
+                 value: 21
+             });
+
+             $("button").click(function (e) {
+                 var divElem = $("#progressDiv");
+                 if (this.id == "mode") {
+                     divElem.progressbar("value", false);
+                 } else {
+                     var currentProgress = divElem.progressbar("value");
+                     if (!currentProgress) {
+                         divElem.progressbar("value", 21);
+                     } else {
+                         divElem.progressbar("value",
+                             this.id == "decr" ? currentProgress - 10 :
+                                                     currentProgress + 10)
+                     }
+                 }
+             });
+         });
+    </script>
+</head>
+<body>
+    <div id="progressDiv"></div>
+    <button id="decr">Decrease</button>
+    <button id="incr">Increase</button>
+    <button id="mode">Indeterminate</button>
+</body>
+</html>

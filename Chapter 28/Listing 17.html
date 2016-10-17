@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="jquery.mobile-1.3.1.css" type="text/css" />
+    <script type="text/javascript" src="jquery-1.10.1.js"></script>  
+    <script type="text/javascript">
+
+        var eventHandlerCreated = false;
+
+        $(document).bind("pageinit", function () {
+            if (!eventHandlerCreated) {
+                $("button").bind("tap", function (e) {
+                    var nextPages = {
+                        page1: "#page2",
+                        page2: "#page3",
+                        page3: "#page1"
+                    }
+                    var currentPageId = $.mobile.activePage.attr("id");
+                    $.mobile.changePage(nextPages[currentPageId]);
+                })
+                eventHandlerCreated = true;
+            }
+        });
+    </script>
+    <script type="text/javascript" src="jquery.mobile-1.3.1.js"></script>    
+</head>
+<body>
+    <div id="page1" data-role="page">
+        <div data-role="header">	
+           <h1>Jacqui's Shop</h1>
+        </div>        
+        <div data-role="content">
+            This is page 1
+            <button id="forward">Go</button>
+        </div>
+    </div>
+    <div id="page2" data-role="page">
+        <div data-role="header">	
+           <h1>Jacqui's Shop</h1>
+        </div>        
+        <div data-role="content">
+            This is page 2
+            <button id="Button1">Go</button>
+        </div>
+    </div>
+    <div id="page3" data-role="page">
+        <div data-role="header">	
+           <h1>Jacqui's Shop</h1>
+        </div>        
+        <div data-role="content">
+            This is page 3
+            <button id="Button2">Go</button>
+        </div>
+    </div>      
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js"></script>
+    <script src="jquery-ui-1.10.3.custom.js"></script>
+    <link href="jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+     <script type="text/javascript">
+         $(document).ready(function () {
+
+             $("button").button();
+
+             $("#progressDiv").progressbar({
+                 value: 21,
+                 create: function (e) {
+                     $("#progVal").text($("#progressDiv").progressbar("value"));
+                 },
+                 complete: function (e) {
+                     $("#incr").button("disable")
+                 },
+                 change: function (e) {
+                     var currentValue = $("#progressDiv").progressbar("value");
+                     if (!currentValue) {
+                         $("#progWrapper").hide();
+                     } else {
+                         if ($(this).progressbar("value") < 100) {
+                             $("#incr").button("enable")
+                         }
+                         $("#progVal").text(currentValue);
+                         $("#progWrapper").show();
+                     }
+                 }
+             });
+
+             $("button").click(function (e) {
+                 var divElem = $("#progressDiv");
+                 if (this.id == "mode") {
+                     divElem.progressbar("value", false);
+                 } else {
+                     var currentProgress = divElem.progressbar("value");
+                     if (!currentProgress) {
+                         divElem.progressbar("value", 21);
+                     } else {
+                         divElem.progressbar("value",
+                             this.id == "decr" ? currentProgress - 10 :
+                                                     currentProgress + 10)
+                     }
+                 }
+             });
+         });
+    </script>
+</head>
+<body>
+    <div id="progressDiv"></div>
+    <button id="decr">Decrease</button>
+    <button id="incr">Increase</button>
+    <button id="mode">Indeterminate</button>
+    <span id="progWrapper">Progress: <span id="progVal"></span>%</span>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#d1, #d2").dialog({
+                autoOpen: false,
+            });
+
+            $("#t1, #t2").button().click(function (e) {
+                var target = this.id == "t1" ? "#d1" : "#d2";
+                if ($(target).dialog("isOpen")) {
+                    $(target).dialog("close")
+                } else {
+                    $(target).dialog("open")
+                }
+            })
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>        
+    <div id="d1" class="dialog" title="First Dialog" class="ui-widget">
+        This is the first dialog
+    </div>
+    <div id="d2" class="dialog" title="Second Dialog" class="ui-widget">
+        This is the second dialog
+    </div>    
+    <div>
+        <button id="t1">Toggle Dialog 1</button>
+    </div>
+    <button id="t2">Toggle Dialog 2</button>
+</body>
+</html>

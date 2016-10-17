@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="handlebars.js"></script>
+    <script src="handlebars-jquery.js"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style type="text/css">
+        #tab2 input, #tab3 input {width: 200px; text-align: left}
+        #tab1, #tab2, #tab3 {padding: 10px}
+        .fl {float: left}
+        #buttonDiv {clear: both}
+        #tabs, h1 {margin: 10px}
+        .regLabel {width: auto}
+    </style>
+    <script id="flowerTmpl" type="text/x-jquery-tmpl">
+        {{#flowers}}
+            <div class="dcell ui-widget">
+                <img src="{{product}}.png"/>
+                <label for="{{product}}">{{name}}:</label>
+                <input name="{{product}}" value="0"/>
+            </div>
+        {{/flowers}}
+    </script>
+    <script id="detailsTmpl" type="text/x-jquery-tmpl">
+        {{#details}}
+            <div class="ui-widget">
+                <label for="{{name}}">{{name}}:</label>
+                <input name="{{name}}" placeholder="{{hint}}"/>
+            </div>
+        {{/details}}
+    </script>   
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var data = [{ "name": "Aster", "product": "aster" },
+                        { "name": "Daffodil", "product": "daffodil" },
+                        { "name": "Rose", "product": "rose" },
+                        { "name": "Peony", "product": "peony" }];
+
+            var elems = $("#flowerTmpl").template({ flowers: data }).filter("*");
+            elems.slice(0, 2).appendTo("#row1");
+            elems.slice(2, 4).appendTo("#row2");
+
+            var detailsData = [{ name: "Name", hint: "Enter your name" },
+                    { name: "Street", hint: "Enter your street" },
+                    { name: "City", hint: "Enter your city" },
+                    { name: "State", hint: "Enter your state" },
+                    { name: "Zip", hint: "Enter your zip code" }];
+
+            $("#detailsTmpl").template({ details: detailsData }).filter("*")
+                .appendTo("#tab2").clone().appendTo("#tab3")
+
+            $("button").button();        
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <form method="post" action="http://node.jacquisflowershop.com/order">
+        <div id="tabs" class="ui-widget">
+            <ul>
+                <li><a href="#tab1">1. Select Products</a>
+                <li><a href="#tab2">2. Your Details</a>      
+                <li><a href="#tab3">3. Your Shipping Address</a>                    
+            </ul>
+            <div id="tab1">
+                <h2>1. Select Products</h2>
+                <div id="row1"></div>
+                <div id="row2"></div>
+            </div>
+            <div id="tab2" class="fl">
+                <h2>2. Your Details</h2>
+            </div>
+            <div id="tab3" class="fl">
+               <h2>3. Your Shipping Address</h2>
+            </div>                 
+        </div>
+        <div id="buttonDiv"><button type="submit">Place Order</button></div>                    
+    </form>
+</body>
+</html>

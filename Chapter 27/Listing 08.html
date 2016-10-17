@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="jquery.mobile-1.3.1.css" type="text/css" />
+    <script type="text/javascript" src="jquery-1.10.1.js"></script>
+    <script type="text/javascript">
+        $(document).bind("pageinit", function() {           
+            $(window).bind("orientationchange", function(e) {
+                $("#status").text(e.orientation)
+            })
+            $("#status").text(jQuery.event.special.orientationchange.orientation())
+        });
+    </script>    
+    <script type="text/javascript" src="jquery.mobile-1.3.1.js"></script>   
+</head>
+<body>
+    <div data-role="page">
+        <div data-role="header">
+                <h1>Jacqui's Shop</h1>
+        </div>
+        <div data-role="content">	
+            <p>Device orientation is: <b><span id=status></span></b></p>
+        </div>
+   </div>
+</body>
+</html>

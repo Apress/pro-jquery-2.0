@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style type="text/css">
+        div.sortable {width: 100px; background-color: lightgrey; font-size: large;
+            margin: 4px; text-align: center; border: medium solid black; padding: 4px;}
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#flowerContainer").sortable();
+            
+            var itemCount = 2;
+            
+            $("button").click(function() {
+                $("<div id=flower_" + (itemCount++) + " class=sortable>Item " +
+                  itemCount + "</div>").appendTo("#flowerContainer");
+                $("#flowerContainer").sortable("refresh");
+            })
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <button>Add Sortable Item</button>    
+    <div id="flowerContainer" class="sortContainer">
+        <div id="flower_1" class="sortable">Aster</div>
+        <div id="flower_2" class="sortable">Peony</div>
+    </div>
+</body>
+</html>

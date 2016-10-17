@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            var flowers = ["Aster", "Daffodil", "Rose", "Peony", "Primula", "Snowdrop",
+                            "Poppy", "Primrose", "Petuna", "Pansy"];
+
+            $("#acInput").autocomplete({
+                source: flowers,
+                focus: displayItem,
+                select: displayItem,
+                change: displayItem
+            })
+            
+            function displayItem(event, ui) {
+                $("#itemLabel").text(ui.item.label)
+            }
+        });
+    </script>
+</head>
+<body>
+    <form>     
+        <div class="ui-widget">
+            <label for="acInput">Flower Name: </label><input id="acInput"/>
+            Item Label: <span id="itemLabel"></span>            
+        </div>
+    </form>
+</body>
+</html>

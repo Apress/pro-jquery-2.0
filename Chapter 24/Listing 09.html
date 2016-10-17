@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style type="text/css">
+        #draggable, #droppable {font-size: large; border: thin solid black; padding: 4px;
+            width: 100px; text-align: center; background-color: lightgray; margin: 4px;}
+        #droppable {padding: 20px; position: absolute; left: 5px; bottom: 5px}
+    </style>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#draggable").draggable();
+        
+        $("#droppable").droppable({
+            drop: function() {
+                $("#draggable").text("Dropped");
+            },
+            over: function() {
+                $("#droppable").css({
+                    border: "medium double green",
+                    backgroundColor: "lightGreen"
+                });
+            },
+            out: function() {
+                $("#droppable").css("border", "").css("background-color", "");
+            }
+        });
+    });
+</script>
+
+
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <div id="droppable">
+        Drop Here
+    </div>        
+    <div id="draggable">
+        Drag Me
+    </div>    
+</body>
+</html>

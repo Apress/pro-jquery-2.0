@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style type="text/css">
+        div.sortable { width: 100px; background-color: lightgrey; font-size: large;
+            margin: 4px; text-align: center; border: medium solid black; padding: 4px;}
+        #fruitContainer {position: absolute; right:50px}
+        #flowerContainer {position: absolute; left:50px}
+        div.flower {background-color: lightgreen}
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#fruit_1").draggable({
+                connectToSortable: "#flowerContainer",
+                helper: "clone"
+            });
+            $("#flowerContainer").sortable();
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <div id="fruitContainer" class="sortContainer">
+        <div id="fruit_1" class="sortable fruit">Apple</div>
+    </div>
+    <div id="flowerContainer" class="sortContainer">
+        <div id="flower_1" class="sortable flower">Aster</div>
+        <div id="flower_2" class="sortable flower">Peony</div>
+        <div id="flower_3" class="sortable flower">Lily</div>
+        <div id="flower_4" class="sortable flower">Orchid</div>        
+    </div>   
+</body>
+</html>

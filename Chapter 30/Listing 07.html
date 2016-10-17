@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="jquery.mobile-1.3.1.css" type="text/css" />
+    <script type="text/javascript" src="jquery-1.10.1.js"></script>
+    <script>
+        $(document).bind("pageinit", function () {
+            var counter = 0;
+            setInterval(function () {
+                var msg = "Counter " + counter++;
+                $("#buttonElem").text(msg).button("refresh");
+                $("#inputElem").val(msg).button("refresh");
+                $("#divElem span.ui-btn-text").text(msg);
+            }, 1000);
+        });
+    </script>
+    <script type="text/javascript" src="jquery.mobile-1.3.1.js"></script>    
+</head>
+<body>
+    <div id="page1" data-role="page" data-theme="b">
+        <div data-role="header">
+           <h1>Jacqui's Shop</h1>
+        </div>        
+        <div data-role="content">      
+            <button id="buttonElem">Button</button>
+            <input id="inputElem" type="button" value="Input" />
+            <div id="divElem" data-role="button">Div</div>
+        </div>
+    </div>
+</body>
+</html>

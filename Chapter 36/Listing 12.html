@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style type="text/css">
+        td {text-align: left; padding: 5px}
+        table {width: 200px; border-collapse: collapse; float: left; width: 300px}
+        #buttonDiv {text-align: center; margin: 20px; float: left}
+    </style>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        
+        function performLongTaskSync() {                            
+            var total = 0;
+            for (var i = 0; i < 5000000  ; i++) {
+                total += (i + Number((Math.random() + 1).toFixed(0)));                
+            }
+            return total;
+        }
+            
+        function performLongTask() {
+            
+            function doSingleIteration() {
+                return $.Deferred(function(innerDef) {
+                        setTimeout(function() {
+                        performLongTaskSync();
+                        innerDef.resolve();
+                    }, 10)    
+                })                    
+            }
+            
+            var def = $.Deferred();
+            
+            setTimeout(function() {
+                
+                doSingleIteration().done(function() {
+                    def.notify(25);
+                    doSingleIteration().done(function() {
+                        def.notify(50);
+                        doSingleIteration().done(function() {
+                            def.notify(75);
+                            doSingleIteration().done(function() {
+                                def.notify(100);
+                                def.resolve();
+                            })
+                        })
+                    })
+                })
+            }, 10);
+                
+            return def;
+        }
+
+            
+        $("button").button().click(function() {
+            
+            performLongTask().progress(function(val) {
+                displayMessage("Progress: " + val + "%")
+            }).done(function() {
+                displayMessage("Task Resolved");
+            })                
+        })
+        
+        $("#dialog").dialog({
+            autoOpen: false,
+            modal: true
+        })
+
+        displayMessage("Ready")
+    })
+    
+    function displayMessage(msg) {
+        $("tbody").append("<tr><td>" + msg + "</td></tr>")
+    }
+</script>
+
+
+
+
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+
+    <table class="ui-widget" border=1>
+        <thead class="ui-widget-header">
+            <tr><th>Message</th></tr>    
+        </thead>
+        <tbody class="ui-widget-content">
+        </tbody>
+    </table>
+
+    <div id="buttonDiv">
+        <button>Go</button>
+    </div>
+    
+    <div id="dialog">
+        Performing Task...
+    </div>
+</body>
+</html>

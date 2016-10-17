@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style type="text/css">
+        input {width: 150px}
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            var canClose = false;
+            var delay = 15;
+            
+            $("#dialog").dialog({
+                modal: true,
+                autoOpen: false,
+                beforeClose: function() {
+                    return canClose;
+                },
+                open: function() {
+                    var count = delay;
+                    var intID = setInterval(function() {
+                        count--;
+                        $("#time").text(count);
+                        if (count == 0) {
+                            clearInterval(intID)
+                            canClose = true;
+                            $("#dialog").dialog("close")
+                        }
+                    }, 1000)
+                }
+            })
+            
+            $("button").click(function(e) {
+                $("#dialog").dialog("open")
+            })
+            
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>        
+
+    <div class="ui-widget">
+        <label for="user">Username: </label><input id="user"/>
+        <label for="pass">Password: </label><input id="pass"/>
+        <button id="send">Login</button>
+    </div>
+    <div id="dialog" title="Wrong Password">
+        The password you entered was incorrect. Please try again in
+        <span id="time">15</span> seconds.
+    </div>
+</body>
+</html>

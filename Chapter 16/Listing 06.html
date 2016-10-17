@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="handlebars.js" type="text/javascript"></script>
+    <script src="handlebars-jquery.js" type="text/javascript"></script>
+    <script src="jquery.validate.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <style type="text/css">
+        a.arrowButton {
+            background-image: url(leftarrows.png); float: left;
+            margin-top: 15px; display: block; width: 50px; height: 50px;
+        }
+        #right {background-image: url(rightarrows.png)}
+        h1 { min-width: 0px; width: 95%; }
+        #oblock { float: left; display: inline; border: thin black solid; }
+        form { margin-left: auto; margin-right: auto; width: 885px; }
+        #bbox {clear: left}
+        #error {color: red; border: medium solid red; padding: 4px; margin: auto;
+            width: 300px; text-align: center; margin-bottom: 5px}
+        .invalidElem {border: medium solid red}
+        #errorSummary {border: thick solid red; color: red; width: 350px; margin: auto;
+            padding: 4px; margin-bottom: 5px}
+    </style>
+    <script id="flowerTmpl" type="text/x-handlebars-template">
+        {{#flowers}}
+        <div class="dcell">
+            <img src="{{product}}.png"/>
+            <label for="{{product}}">{{name}}:</label>
+            <input name="{{product}}" value="0" />
+        </div>
+        {{/flowers}}
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $.ajaxSetup({
+                timeout: 5000,
+                converters: {"text html": function (data) { return $(data); }}
+            });
+
+            $(document).ajaxError(function (e, jqxhr, settings, errorMsg) {
+                $("#error").remove();
+                var msg = "An error occurred. Please try again"
+                if (errorMsg == "timeout") {
+                    msg = "The request timed out. Please try again"
+                } else if (jqxhr.status == 404) {
+                    msg = "The file could not be found";
+                }
+                $("<div id=error/>").text(msg).insertAfter("h1");
+            }).ajaxSuccess(function () {
+                $("#error").remove();
+            });
+
+            $("<a id=left></a><a id=right></a>").prependTo("form")
+                .addClass("arrowButton").click(handleArrowPress).hover(handleArrowMouse);
+            $("#right").appendTo("form");
+
+            $("#row2, #row3").hide();
+
+            var flowerReq = $.get("flowers.html", function (data) {
+                var elems = data.filter("div").addClass("dcell");
+                elems.slice(0, 3).appendTo("#row1");
+                elems.slice(3).appendTo("#row2");
+            });
+
+            var jsonReq = $.getJSON("additionalflowers.json", function (data) {
+                $("#flowerTmpl").template({ flowers: data }).appendTo("#row3");
+            });
+
+            $("<div id=errorSummary>").text("Please correct the following errors:")
+                .append("<ul id='errorsList'></ul>").hide().insertAfter("h1");
+    
+            $("form").validate({
+                highlight: function(element, errorClass) {         
+                    $(element).addClass("invalidElem");
+                },
+                unhighlight: function(element, errorClass) {
+                    $(element).removeClass("invalidElem");
+                },
+                errorContainer: "#errorSummary",
+                errorLabelContainer: "#errorsList",
+                wrapper: "li",
+                errorElement: "div"
+            });
+            
+            var plurals = {
+                aster: "Asters", daffodil: "Daffodils", rose: "Roses",
+                peony: "Peonies", primula: "Primulas", snowdrop: "Snowdrops",
+                carnation: "Carnations", lily: "Lillies", orchid: "Orchids"
+            };
+
+            $.when(flowerReq, jsonReq).then(function() {
+                $("input").each(function(index, elem) {
+                    $(elem).rules("add", {
+                        required: true,
+                        min: 0,                        
+                        digits: true,
+                        messages: {
+                            required: "Please enter a number of " + plurals[elem.name],
+                            digits: "Please enter a number of" + plurals[elem.name],
+                            min: "Please enter a positive number of " 
+                                + plurals[elem.name]
+                        }
+                    })
+                }).change(function(e) {
+                    if ($("form").validate().element($(e.target))) {
+                        var total = 0;
+                        $("input").each(function(index, elem) {
+                            total += Number($(elem).val());
+                        });            
+                        $("#total").text(total);
+                    }
+                });  
+            });
+   
+            var total = $("#buttonDiv")
+                .prepend("<div>Total Items: <span id=total>0</span></div>")
+                .css({ clear: "both", padding: "5px" });
+            $("<div id=bbox />").appendTo("body").append(total).css("clear: left");
+
+            $("input").change(function (e) {
+                var total = 0;
+                $("input").each(function (index, elem) {
+                    total += Number($(elem).val());
+                });
+                $("#total").text(total);
+            });
+
+            function handleArrowMouse(e) {
+                var propValue = e.type == "mouseenter" ? "-50px 0px" : "0px 0px";
+                $(this).css("background-position", propValue);
+            }
+
+            function handleArrowPress(e) {
+                var elemSequence = ["row1", "row2", "row3"];
+                var visibleRow = $("div.drow:visible");
+                var visibleRowIndex =
+                    jQuery.inArray(visibleRow.attr("id"), elemSequence);
+
+                var targetRowIndex;
+                if (e.target.id == "left") {
+                    targetRowIndex = visibleRowIndex - 1;
+                    if (targetRowIndex < 0) { targetRowIndex = elemSequence.length - 1 };
+                } else {
+                    targetRowIndex = (visibleRowIndex + 1) % elemSequence.length;
+                }
+
+                visibleRow.fadeOut("fast", function () {
+                    $("#" + elemSequence[targetRowIndex]).fadeIn("fast")
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <form method="post" action="http://node.jacquisflowershop.com/order">
+        <div id="oblock">        
+            <div class="dtable">
+                <div id="row1" class="drow"></div>
+                <div id="row2" class="drow"></div>
+                <div id="row3" class="drow"></div>            
+            </div>
+        </div>
+        <div id="buttonDiv"><button type="submit">Place Order</button></div>                    
+    </form>
+</body>
+</html>

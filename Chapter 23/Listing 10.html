@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <style>
+        [title] { font-weight: bold; font-style:italic }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("[title]").tooltip();
+        });
+    </script>
+</head>
+<body class="ui-widget">
+    <h1>Jacqui's Flower Shop</h1>        
+
+    <h3>Color and Beauty to Your Door</h3>     
+    <p>We are pleased to announce that we are starting a home delivery service for
+    your flower needs. We will deliver within a 
+    <span title="We are at 200 Main St">20 mile radius</span> 
+    of the store for free and $1/mile thereafter.</p>
+</body>
+</html>

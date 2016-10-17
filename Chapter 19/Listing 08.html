@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style>
+        #target { margin-top: 40px; display:inline-block }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var flowers = [{ label: "Aster (Purple)", value: "Aster" },
+                { label: "Daffodil (White)", value: "Daffodil" },
+                { label: "Rose (Pink)", value: "Rose" },
+                { label: "Peony (Pink)", value: "Peony" }]
+
+            $("#acInput").autocomplete({
+                source: flowers,
+                position: {
+                    my: "left top",
+                    at: "right bottom+20",
+                    of: "#target",
+                    collision: "fit"
+                }
+            })
+
+        });
+    </script>
+</head>
+<body>
+    <form>     
+        <div class="ui-widget">
+            <label for="acInput">Flower Name: </label><input id="acInput"/>
+        </div>
+    </form>
+    <span id="target">Target</span>
+</body>
+</html>

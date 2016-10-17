@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="jquery.mobile-1.3.1.css" type="text/css" />
+    <script type="text/javascript" src="jquery-1.10.1.js"></script>  
+    <script type="text/javascript" src="jquery.mobile-1.3.1.js"></script>    
+</head>
+<body>
+    <div id="page1" data-role="page">
+        <div data-role="header">	
+           <h1>Jacqui's Shop</h1>
+        </div>        
+        <div data-role="content">   
+            <a href="#page2" data-rel="dialog">Show the dialog</a>
+        </div>
+    </div>
+    <div id="page2" data-role="page" data-overlay-theme="d">
+        <div data-role="header">	
+           <h1>You clicked the link!</h1>
+        </div>        
+        <div data-role="content">   
+            This is the content area of the dialog
+            <a href="#page3" data-role="button">OK</a>            
+            <a href="#" data-role="button" data-rel="back">Close</a>            
+        </div>        
+    </div>
+    <div id="page3" data-role="page">
+        <div data-role="header">	
+           <h1>Jacqui's Shop</h1>
+        </div>        
+        <div data-role="content">   
+            This is page 3. You came here via the dialog.
+        </div>
+    </div>    
+</body>
+</html>

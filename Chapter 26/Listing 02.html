@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <script src="handlebars.js"></script>
+    <script src="handlebars-jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <style type="text/css">
+        .dcell img {height: 60px}
+    </style>
+    <script id="flowerTmpl" type="text/x-handlebars-template">
+        {{#flowers}}
+            <div class="dcell">
+                <img src="{{product}}.png"/>
+                <label for="{{product}}">{{name}}:</label>
+                <input name="{{product}}" value="0" />
+            </div>
+        {{/flowers}}
+    </script>    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.getJSON("mydata.json", function (data) {
+                var flowers = $("#flowerTmpl").template({ flowers: data }).filter("*");
+
+                var rowCount = 1;    
+                for (var i = 0; i < flowers.length; i += 2) {
+
+                    $("<a>").text(data[i].name + " & " + data[i + 1].name)
+                        .appendTo("<h2>").parent().appendTo("#products");
+
+                    $("<div>").attr("id", "row" + (rowCount++))
+                        .appendTo("#products")
+                        .append(flowers.slice(i, i + 2))
+                }
+                $("#products").accordion();
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <form method="post" action="http://node.jacquisflowershop.com/order">
+        <div id="products"></div>
+        <div id="buttonDiv"><button type="submit">Place Order</button></div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js"></script>
+    <script src="jquery-ui-1.10.3.custom.js"></script>
+    <link href="jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+    <style>
+        #hslider, #vslider { margin: 10px}
+    </style>
+     <script type="text/javascript">
+         $(document).ready(function () {
+             $("#hslider").slider({
+                 value: 35
+             });
+
+             $("#vslider").slider({
+                 orientation: "vertical",
+                 value: 35
+             });
+         });
+    </script>
+</head>
+<body>
+    <div id="hslider"></div>
+    <div id="vslider"></div>
+</body>
+</html>

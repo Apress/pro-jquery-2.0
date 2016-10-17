@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <style type="text/css">
+        .draggable, .droppable {font-size: large; border: medium solid black;
+            padding: 4px; width: 150px; text-align: center;
+            background-color: lightgray; margin-bottom: 10px;}
+        .droppable {margin-right: 5px; height: 50px; width: 120px}
+        #dropContainer {position: absolute; right: 5px;}
+        div span {position: relative; top: 25%}
+        .droppable.active {border: medium solid green}
+        .droppable.hover {background-color: lightgreen}
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            $("div.draggable").draggable({
+                helper: "clone"
+            });        
+            
+            $("#basket").droppable({
+                activeClass: "active",
+                hoverClass: "hover"
+            });        
+        });
+    </script>
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <div id="dropContainer">
+        <div id="basket" class="droppable">
+            <span>Basket</span>
+        </div> 
+    </div>
+    <div class="draggable">
+        <img src="lily.png"/><label for="lily">Lily</label>
+    </div>
+</body>
+</html>

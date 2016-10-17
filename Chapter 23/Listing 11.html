@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js" type="text/javascript"></script>
+    <script src="jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-ui-1.10.3.custom.css"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <style>
+        input { width: 150px; }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input").tooltip();
+        });
+    </script>
+</head>
+<body class="ui-widget">
+    <h1>Jacqui's Flower Shop</h1>        
+    <div><label>Name:</label><input title="Use lastname, firstname" /></div>
+    <div><label>City:</label><input title="Don't include your state" /></div> 
+</body>
+</html>

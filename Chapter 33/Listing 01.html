@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="jquery.mobile-1.3.1.css" type="text/css" />
+    <script type="text/javascript" src="jquery-1.10.1.js"></script>
+    <script type="text/javascript" src="jquery.mobile-1.3.1.js"></script>
+    <style type="text/css">
+        .lcontainer {float: left; text-align: center; padding-top: 10px}
+        .productData {float: right; padding: 10px; width: 60%}
+        .cWrapper {text-align: center; margin: 20px}
+    </style>        
+</head>
+<body>
+    <div id="page1" data-role="page" data-theme="b">
+        <div data-role="header">
+           <h1>Jacqui's Shop</h1>
+        </div>
+        
+        <div id="container" style="padding: 20px">
+            <ul data-role="listview" data-inset=true>
+                <li><a href="#basket" class="buy" id="rose">Roses</a>
+                    <a href="#roses">Roses</a></li>
+                <li><a href="#basket" class="buy" id="orchid">Orchids</a>
+                    <a href="#orchids">Orchids</a>  </li>
+                <li><a href="#basket" class="buy" id="aster">Asters</a>
+                    <a href="#asters">Asters</a>  </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div id="basket" data-role="page" data-theme="b">
+        <div data-role="header">
+           <h1>Jacqui's Shop</h1>
+        </div>
+        <div class="cWrapper">
+            Basket will go here
+        </div>
+        <div class="cWrapper">
+            <a href="#" data-rel="back" data-role="button" data-inline=true
+               data-direction="reverse">Back</a>
+        </div>
+    </div>
+    
+    <div id="roses" data-role="page" data-theme="b">
+        <div data-role="header">
+           <h1>Roses</h1>
+        </div>
+        <div>
+            <div class="lcontainer">
+                <img src="rose.png">
+                <div><a href="#" data-rel="back" data-role="button"
+                       data-inline=true data-direction="reverse">Back</a>
+                </div>
+            </div>             
+            <div class="productData">
+                A rose is a woody perennial within the family Rosaceae.
+                They form a group of erect shrubs, and climbing or trailing plants.
+                <div><b>Price: $4.99</b></div>                
+            </div>
+        </div>
+    </div>
+
+   <div id="orchids" data-role="page" data-theme="b">
+        <div data-role="header">
+           <h1>Orchids</h1>
+        </div>
+        <div>
+            <div class="lcontainer">
+                <img src="orchid.png">
+                <div><a href="#" data-rel="back" data-role="button"
+                       data-inline=true data-direction="reverse">Back</a>
+                </div>
+            </div>             
+            <div class="productData">
+                The orchid family is a diverse and widespread family in the order
+                Asparagales. It is one of the largest families of flowering plants.
+                <div><b>Price: $10.99</b></div>                
+            </div>
+        </div>
+    </div>
+    
+   <div id="asters" data-role="page" data-theme="b">
+        <div data-role="header">
+           <h1>Asters</h1>
+        </div>
+        <div>
+            <div class="lcontainer">
+                <img src="aster.png">
+                <div><a href="#" data-rel="back" data-role="button"
+                       data-inline=true data-direction="reverse">Back</a>
+                </div>
+            </div>             
+            <div class="productData">
+                The name Aster comes from the Ancient Greek word meaning "star",
+                referring to the shape of the flower head.
+                <div><b>Price: $2.99</b></div>                
+            </div>
+        </div>
+    </div>    
+</body>
+</html>

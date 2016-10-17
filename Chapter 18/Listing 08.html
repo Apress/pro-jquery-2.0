@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script src="jquery-2.0.2.js"></script>
+    <script src="handlebars.js"></script>
+    <script src="handlebars-jquery.js"></script>
+    <script src="jquery-ui-1.10.3.custom.js"></script>
+    <link href="jquery-ui-1.10.3.custom.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+
+    <script id="flowerTmpl" type="text/x-handlebars-template">
+        {{#flowers}}
+        <div class="dcell">
+            <img src="{{product}}.png"/>
+            <label for="{{product}}">{{name}}:</label>
+            <input name="{{product}}" data-price="{{price}}" data-stock="{{stocklevel}}"
+                value="0" required />
+        </div>
+        {{/flowers}}
+    </script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax("mydata.json", {
+            success: function (data) {
+                var tmplData = $("#flowerTmpl")
+                    .template({ flowers: data }).filter("*");
+                tmplData.slice(0, 3).appendTo("#row1");
+                tmplData.slice(3).appendTo("#row2");
+            }
+        });
+
+        $("<span>Enabled:<span><input type=checkbox checked />").prependTo("#buttonDiv");
+        $(":checkbox").change(function (e) {
+            var buttons = $("button");
+            if ($(":checked").length == 1) {
+                buttons.removeAttr("disabled");
+            } else {
+                buttons.attr("disabled", "disabled");
+            }
+            buttons.button("refresh");
+        });
+
+        $("button").button();
+    });
+</script>
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+    <h1>Jacqui's Flower Shop</h1>
+    <form method="post" action="http://node.jacquisflowershop.com/order">
+        <div id="oblock">        
+            <div class="dtable">
+                <div id="row1" class="drow">
+                </div>
+                <div id="row2"class="drow">
+                </div>            
+            </div>
+        </div>
+        <div id="buttonDiv"><button type="submit">Place Order</button></div>                    
+    </form>
+</body>
+</html>
